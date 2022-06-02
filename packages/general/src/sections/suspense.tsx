@@ -96,6 +96,7 @@ const GraphSummary = () => {
 	);
 };
 
+// Simplified implementation of https://codesandbox.io/s/bold-leftpad-blbx02?file=/src/fakeApi.js
 function createFetch<T>(data: T, time = 1000) {
 	let result: T;
 	let promise: Promise<T>;
