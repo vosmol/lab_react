@@ -1,6 +1,6 @@
 # About
 
-This repository is my refresher of React features with new ones from React18 included
+This repository is my refresher/exploration of React features with new ones from React18 included
 
 # Repo structure
 
