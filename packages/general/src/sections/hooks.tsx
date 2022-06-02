@@ -1,4 +1,5 @@
 import {
+	forwardRef,
 	useCallback,
 	useDebugValue,
 	useDeferredValue,
@@ -16,17 +17,31 @@ import {
 } from 'react';
 
 const keep = [
-	useLayoutEffect,
 	// https://reactjs.org/docs/hooks-faq.html#how-to-avoid-passing-callbacks-down
 	useReducer,
-	useImperativeHandle,
+	// -----
 	useTransition,
 	useDeferredValue,
-	useInsertionEffect,
+	// https://blog.logrocket.com/exploring-react-18-three-new-apis/
 	useSyncExternalStore
 ];
 
 export const Section_Hooks = () => {
+	useInsertionEffect(() => {
+		const root = document.getElementById('root');
+		console.log('insertionEffect', root?.childNodes.length);
+	}, []);
+
+	useLayoutEffect(() => {
+		const root = document.getElementById('root');
+		console.log('layoutEffect', root?.childNodes.length);
+	}, []);
+
+	useEffect(() => {
+		const root = document.getElementById('root');
+		console.log('regularEffect', root?.childNodes.length);
+	}, []);
+
 	return (
 		<>
 			<UseState />
@@ -35,9 +50,43 @@ export const Section_Hooks = () => {
 			<UseEffect />
 			<UseMemo />
 			<UseRef />
+			<UseImperativeHandle />
 		</>
 	);
 };
+
+const UseImperativeHandle = () => {
+	const ref = useRef<t_controlledRef>(null);
+
+	function toggleChildComp() {
+		const comp = ref.current;
+		if (comp) comp.toggle();
+	}
+
+	console.log('Parent render');
+
+	return (
+		<div>
+			<h4>useImperativeHandle</h4>
+			<button onClick={toggleChildComp}>Toggle from parent</button>
+			<ControlledComp ref={ref} />
+		</div>
+	);
+};
+
+type t_controlledRef = { toggle: () => void };
+
+const ControlledComp = forwardRef<t_controlledRef>((props, ref) => {
+	const [active, setActive] = useState(false);
+
+	useImperativeHandle(ref, () => {
+		return {
+			toggle: () => setActive((v) => !v)
+		};
+	});
+
+	return <div>I am {active ? 'active' : 'inactive'}</div>;
+});
 
 const UseState = () => {
 	const [MM, setMin] = useState('--');
@@ -60,6 +109,7 @@ const UseState = () => {
 		updateClock();
 
 		return function () {
+			console.log('cleared');
 			clearInterval(clock);
 		};
 	}, []);

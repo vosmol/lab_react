@@ -16,4 +16,4 @@ https://blog.logrocket.com/exploring-workspaces-other-advanced-package-manager-f
     - ⬜ Classes
   - ⬜ Renderer - custom React renderer
   - ⬜ SSR - server specific code to render react in node.js
-  - ⬜ Test package with React 17 for comparison
+  - ✅ React-17 - Test package with react@17 for comparison
