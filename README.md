@@ -9,7 +9,7 @@ This repository is my refresher/exploration of React features with new ones from
     - Context
     - Dom - react-dom
     - Hooks
-    - Suspense - lazy + supsended fetch
+    - Suspense - lazy + suspended fetch
     - Other - rest of the features not included in other sections
   - Renderer - custom React renderer
   - SSR - server specific code to render react in node.js
