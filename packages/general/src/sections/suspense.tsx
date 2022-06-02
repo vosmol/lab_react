@@ -4,7 +4,7 @@ export const Section_Suspense = () => {
 	const [mount, setMount] = useState(false);
 
 	return (
-		<div style={{ padding: '2rem' }}>
+		<div>
 			<h1>Dashboard</h1>
 			<button onClick={() => setMount((v) => !v)}>
 				{mount ? 'Unmount' : 'Mount'}
