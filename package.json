@@ -1,9 +1,8 @@
 {
-  "name": "react",
+  "name": "lab_react",
   "version": "0.0.0",
   "private": true,
   "workspaces": [
-    "apps/*",
     "packages/*"
   ],
   "scripts": {
