@@ -2,6 +2,8 @@
 
 This repository is my refresher of React features and exploration of new ones added in React 18
 
+https://blog.logrocket.com/exploring-workspaces-other-advanced-package-manager-features/
+
 # Repo structure
 
 - Packages - source code

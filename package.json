@@ -1,23 +1,24 @@
 {
-  "name": "lab_react",
-  "version": "0.0.0",
-  "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
-  "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev --parallel",
-    "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
-  },
-  "devDependencies": {
-    "prettier": "latest",
-    "turbo": "latest"
-  },
-  "engines": {
-    "npm": ">=7.0.0",
-    "node": ">=14.0.0"
-  },
-  "packageManager": "pnpm@6.29.1"
+	"name": "lab_react",
+	"version": "0.0.0",
+	"private": true,
+	"workspaces": [
+		"packages/*"
+	],
+	"scripts": {
+		"dev:general": "cd packages/general && pnpm dev",
+		"dev:react-17": "cd packages/react-17 && pnpm dev",
+		"dev:renderer": "cd packages/renderer && pnpm dev",
+		"dev:ssr": "cd packages/ssr && pnpm dev",
+		"format": "prettier --write \"packages/**/*.{ts,tsx,md,json}\""
+	},
+	"devDependencies": {
+		"prettier": "latest",
+		"turbo": "latest"
+	},
+	"engines": {
+		"npm": ">=7.0.0",
+		"node": ">=14.0.0"
+	},
+	"packageManager": "pnpm@6.29.1"
 }

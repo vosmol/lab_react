@@ -17,6 +17,7 @@ import {
 
 const keep = [
 	useLayoutEffect,
+	// https://reactjs.org/docs/hooks-faq.html#how-to-avoid-passing-callbacks-down
 	useReducer,
 	useImperativeHandle,
 	useTransition,
