@@ -6,24 +6,24 @@ import { UseEffect } from './use-effect';
 import { UseID } from './use-id';
 import { UseImperativeHandle } from './use-imperative-handle';
 import { UseMemo } from './use-memo';
-import { UseReducer } from './use-reducer';
+import { UseReducerAndContext } from './use-reducer-context';
 import { UseRef } from './use-ref';
 import { UseState } from './use-state';
 import { UseSyncExternalStore } from './use-sync-external-store';
 import { UseTransition } from './use-transition';
 
 const routes = {
+	'reducer-context': 'reducer',
+	imperativeHandle: 'imperative-handle',
+	syncExternalStore: 'sync-external-store',
+	memo: 'memo',
 	state: 'state',
+	defferedValue: 'deffered-value',
+	transition: 'transition',
 	callback: 'callback',
 	id: 'id',
 	effect: 'effect',
-	memo: 'memo',
-	ref: 'ref',
-	imperativeHandle: 'imperative-handle',
-	defferedValue: 'deffered-value',
-	syncExternalStore: 'sync-external-store',
-	transition: 'transition',
-	reducer: 'reducer'
+	ref: 'ref'
 };
 
 export const Section_Hooks = () => {
@@ -41,7 +41,11 @@ export const Section_Hooks = () => {
 				/>
 			</div>
 			<Routes>
-				<Route path="/" element={<Navigate to={routes.state} />} />
+				<Route path="/" element={<Navigate to={routes['reducer-context']} />} />
+				<Route
+					path={routes['reducer-context']}
+					element={<UseReducerAndContext />}
+				/>
 				<Route path={routes.state} element={<UseState />} />
 				<Route path={routes.callback} element={<UseCallback />} />
 				<Route path={routes.id} element={<UseID />} />
@@ -58,7 +62,6 @@ export const Section_Hooks = () => {
 					element={<UseSyncExternalStore />}
 				/>
 				<Route path={routes.transition} element={<UseTransition />} />
-				<Route path={routes.reducer} element={<UseReducer />} />
 			</Routes>
 		</div>
 	);

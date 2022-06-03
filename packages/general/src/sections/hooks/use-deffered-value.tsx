@@ -7,6 +7,7 @@ export const UseDefferedValue = () => {
 		<div>
 			<h4>useDefferedValue</h4>
 			<input
+				placeholder="Start typing"
 				style={{ marginBottom: '1rem' }}
 				type="text"
 				onChange={(e) => setSearch(e.target.value)}

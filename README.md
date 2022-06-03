@@ -6,9 +6,8 @@ This repository is my refresher of React features and exploration of new ones ad
 
 - Packages - source code
   - General - standard React features
-    - Hooks 🟨
-    - Suspense - lazy + suspended fetch ✅
-    - Context 🟨
+    - ✅ Hooks
+    - ✅ Suspense - lazy + suspended fetch
     - Dom - react-dom
     - Other - rest of the features not included in other sections
     - Classes
