@@ -5,14 +5,13 @@ This repository is my refresher of React features and exploration of new ones ad
 # Repo structure
 
 - Packages - source code
-  - 📁 | ⬜ General - standard React features
-    - 📁 | ✅ Hooks
-      - 🟨 useReducer
-    - 📁 | ✅ Suspense - lazy + suspended fetch
-    - 📁 | 🟨 Context
-    - 📁 | ⬜ Dom - react-dom
-    - 📁 | ⬜ Other - rest of the features not included in other sections
-    - 📁 | ⬜ Classes
-  - 📁 | ⬜ Renderer - custom React renderer
-  - 📁 | ⬜ SSR - server specific code to render react in node.js
-  - 📁 | ✅ React-17 - Test package with react@17 for comparison
+  - General - standard React features
+    - Hooks (useReducer)
+    - Suspense - lazy + suspended fetch
+    - Context
+    - Dom - react-dom
+    - Other - rest of the features not included in other sections
+    - Classes
+  - Renderer - custom React renderer
+  - SSR - server specific code to render react in node.js
+  - React-17 - Test package with react@17 for comparison
