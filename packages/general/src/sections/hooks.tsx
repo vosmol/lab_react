@@ -2,46 +2,17 @@ import {
 	forwardRef,
 	useCallback,
 	useDebugValue,
-	useDeferredValue,
 	useEffect,
 	useId,
 	useImperativeHandle,
 	useInsertionEffect,
 	useLayoutEffect,
 	useMemo,
-	useReducer,
 	useRef,
-	useState,
-	useSyncExternalStore,
-	useTransition
+	useState
 } from 'react';
 
-const keep = [
-	// https://reactjs.org/docs/hooks-faq.html#how-to-avoid-passing-callbacks-down
-	useReducer,
-	// -----
-	useTransition,
-	useDeferredValue,
-	// https://blog.logrocket.com/exploring-react-18-three-new-apis/
-	useSyncExternalStore
-];
-
 export const Section_Hooks = () => {
-	useInsertionEffect(() => {
-		const root = document.getElementById('root');
-		console.log('insertionEffect', root?.childNodes.length);
-	}, []);
-
-	useLayoutEffect(() => {
-		const root = document.getElementById('root');
-		console.log('layoutEffect', root?.childNodes.length);
-	}, []);
-
-	useEffect(() => {
-		const root = document.getElementById('root');
-		console.log('regularEffect', root?.childNodes.length);
-	}, []);
-
 	return (
 		<>
 			<UseState />
@@ -51,8 +22,32 @@ export const Section_Hooks = () => {
 			<UseMemo />
 			<UseRef />
 			<UseImperativeHandle />
+			<UseDefferedValue />
+			<UseSyncExternalStore_UseTransition />
+			<UseReducer />
 		</>
 	);
+};
+
+export const UseReducer = () => {
+	// https://reactjs.org/docs/hooks-faq.html#how-to-avoid-passing-callbacks-down
+	// useReducer
+
+	return null;
+};
+
+export const UseDefferedValue = () => {
+	// useDeferredValue()
+
+	return null;
+};
+
+export const UseSyncExternalStore_UseTransition = () => {
+	// https://www.youtube.com/watch?v=oPfSC5bQPR8&ab_channel=ReactConf2021
+	// const result = useSyncExternalStore();
+	// useTransition()
+
+	return null;
 };
 
 const UseImperativeHandle = () => {
@@ -88,7 +83,15 @@ const ControlledComp = forwardRef<t_controlledRef>((props, ref) => {
 	return <div>I am {active ? 'active' : 'inactive'}</div>;
 });
 
+function superHeavyComputation(id: string) {
+	console.log(id, 'Gonna wreck your CPU boi');
+	return 0;
+}
+
 const UseState = () => {
+	useState(() => superHeavyComputation('lazy'));
+	useState(superHeavyComputation('dynamic'));
+
 	const [MM, setMin] = useState('--');
 	const [HH, setHour] = useState('--');
 	const [SS, setSec] = useState('--');
@@ -162,8 +165,17 @@ const UseMemo = () => {
 	);
 };
 
+function getNodes(id: string) {
+	const root = document.getElementById('root');
+	console.log(id, root?.childNodes.length);
+}
+
 const UseEffect = () => {
-	const [val, setVal] = useState(() => 0);
+	const [val, setVal] = useState(0);
+
+	useInsertionEffect(() => getNodes('insertionEffect'), []);
+	useLayoutEffect(() => getNodes('layoutEffect'), []);
+	useEffect(() => getNodes('useEffect'), []);
 
 	useEffect(() => {
 		console.log('each rerender');
