@@ -41,7 +41,7 @@ const LazyComponent = lazy(
 			setTimeout(() => {
 				//@ts-ignore
 				res({ default: Lazy });
-			}, 3000);
+			}, 2000);
 		})
 );
 
