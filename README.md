@@ -9,8 +9,9 @@ https://blog.logrocket.com/exploring-workspaces-other-advanced-package-manager-f
 - Packages - source code
   - ⬜ General - standard React features
     - ✅ Hooks
+      - 🟨 useReducer
     - ✅ Suspense - lazy + suspended fetch
-    - ⬜ Context
+    - 🟨 Context
     - ⬜ Dom - react-dom
     - ⬜ Other - rest of the features not included in other sections
     - ⬜ Classes
