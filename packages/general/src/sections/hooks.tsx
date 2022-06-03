@@ -2,14 +2,18 @@ import {
 	forwardRef,
 	useCallback,
 	useDebugValue,
+	useDeferredValue,
 	useEffect,
 	useId,
 	useImperativeHandle,
 	useInsertionEffect,
 	useLayoutEffect,
 	useMemo,
+	useReducer,
 	useRef,
-	useState
+	useState,
+	useSyncExternalStore,
+	useTransition
 } from 'react';
 
 export const Section_Hooks = () => {
@@ -23,7 +27,8 @@ export const Section_Hooks = () => {
 			<UseRef />
 			<UseImperativeHandle />
 			<UseDefferedValue />
-			<UseSyncExternalStore_UseTransition />
+			<UseSyncExternalStore />
+			<UseTransition />
 			<UseReducer />
 		</>
 	);
@@ -31,22 +36,23 @@ export const Section_Hooks = () => {
 
 export const UseReducer = () => {
 	// https://reactjs.org/docs/hooks-faq.html#how-to-avoid-passing-callbacks-down
-	// useReducer
-
+	const v = useReducer;
 	return null;
 };
 
 export const UseDefferedValue = () => {
-	// useDeferredValue()
-
+	const v = useDeferredValue;
 	return null;
 };
 
-export const UseSyncExternalStore_UseTransition = () => {
-	// https://www.youtube.com/watch?v=oPfSC5bQPR8&ab_channel=ReactConf2021
-	// const result = useSyncExternalStore();
-	// useTransition()
+export const UseTransition = () => {
+	const v = useTransition;
+	return null;
+};
 
+export const UseSyncExternalStore = () => {
+	// https://www.youtube.com/watch?v=oPfSC5bQPR8&ab_channel=ReactConf2021
+	const v = useSyncExternalStore;
 	return null;
 };
 

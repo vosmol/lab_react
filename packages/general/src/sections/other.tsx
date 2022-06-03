@@ -35,3 +35,13 @@ const keep = [
 export const Section_Other = () => {
 	return null;
 };
+
+const SingleClickHandler = () => {
+	return (
+		<div onClick={() => {}}>
+			{Array.from(Array(40)).map(() => (
+				<button>Hello there</button>
+			))}
+		</div>
+	);
+};
