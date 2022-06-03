@@ -2,7 +2,8 @@ import { memo, useState, useTransition } from 'react';
 
 export const UseTransition = () => {
 	const [quickVal, setQuickVal] = useState(0);
-	const [slowVal, setSlowVal] = useState(0);
+	const [slowVal1, setSlowVal1] = useState(0);
+	const [slowVal2, setSlowVal2] = useState(0);
 	const [isAsync, setAsync] = useState(true);
 	const [, startTransition] = useTransition();
 
@@ -10,11 +11,13 @@ export const UseTransition = () => {
 		if (isAsync) {
 			setQuickVal((v) => v + 1);
 			startTransition(() => {
-				setSlowVal((v) => v + 1);
+				setSlowVal1((v) => v + 1);
+				setSlowVal2((v) => v + 1);
 			});
 		} else {
 			setQuickVal((v) => v + 1);
-			setSlowVal((v) => v + 1);
+			setSlowVal1((v) => v + 1);
+			setSlowVal2((v) => v + 1);
 		}
 	}
 
@@ -28,9 +31,12 @@ export const UseTransition = () => {
 				style={{ marginRight: '1rem' }}
 				onClick={() => setAsync((v) => !v)}
 			>
-				{isAsync ? 'Disable async rendering' : 'Enable async rendering'}
+				{isAsync
+					? 'Disable concurrent rendering'
+					: 'Enable concurrent rendering'}
 			</button>
-			<MemoizedHeavyComponent val={slowVal} />
+			<MemoizedHeavyComponent val={slowVal1} />
+			<MemoizedHeavyComponent val={slowVal2} />
 		</div>
 	);
 };
