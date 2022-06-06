@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, useEffect, useRef, useState } from 'react';
+import { FC, PropsWithChildren, useRef, useState } from 'react';
 import {
 	createPortal,
 	findDOMNode,
@@ -67,17 +67,12 @@ export const Section_DOM = () => {
 const Portal: FC<
 	PropsWithChildren<{
 		portalId: string;
-		target?: HTMLElement;
 		createWrapper?: boolean;
 	}>
-> = ({ children, target, portalId, createWrapper }) => {
+> = ({ children, portalId, createWrapper }) => {
 	let wrapper = document.getElementById(portalId);
 	const prev = useRef<HTMLElement>();
-	const targetParent = target || document.body;
-
-	useEffect(() => {
-		console.log(target);
-	});
+	const targetParent = document.body;
 
 	if (!wrapper) {
 		if (!createWrapper) throw new Error('Portal element not found');
@@ -89,7 +84,6 @@ const Portal: FC<
 		}
 
 		wrapper.setAttribute('id', portalId);
-
 		targetParent.appendChild(wrapper);
 	}
 
