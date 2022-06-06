@@ -3,45 +3,52 @@ import {
 	cloneElement,
 	createElement,
 	createFactory,
-	createRef,
 	forwardRef,
 	Fragment,
 	isValidElement,
-	lazy,
-	memo,
 	Profiler,
-	startTransition,
-	StrictMode,
+	useEffect,
+	useRef,
 	version
 } from 'react';
 
 const keep = [
-	Children,
-	Fragment,
-	Profiler,
-	StrictMode,
-	version,
-	startTransition,
-	memo,
-	lazy,
-	isValidElement,
-	forwardRef,
-	createRef,
+	// Legacy
 	createFactory,
+	Children,
 	createElement,
 	cloneElement
 ];
 
 export const Section_Other = () => {
-	return null;
-};
+	const ref = useRef<HTMLButtonElement>(null);
 
-const SingleClickHandler = () => {
+	useEffect(() => {
+		console.log(ref.current);
+	}, []);
+
 	return (
-		<div onClick={() => {}}>
-			{Array.from(Array(40)).map(() => (
-				<button>Hello there</button>
-			))}
-		</div>
+		<Profiler id="profiler" onRender={(...props) => console.dir(props)}>
+			<Fragment>
+				<>{version}</>
+				<Button ref={ref} />
+			</Fragment>
+		</Profiler>
 	);
 };
+
+const Button = forwardRef<HTMLButtonElement>((props, ref) => {
+	return (
+		<button style={{ marginLeft: '1rem' }} ref={ref}>
+			Button
+			<span>
+				<span></span>
+			</span>
+		</button>
+	);
+});
+
+const Section = <Section_Other />;
+
+console.log(isValidElement(Section));
+console.log(Children.count(Section));
