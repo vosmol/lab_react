@@ -32,10 +32,15 @@ function App() {
 						path={handleAll(routes.suspense)}
 						element={<Section_Suspense />}
 					/>
+					<Route path="bla" element={<Bla />} />
 				</Routes>
 			</div>
 		</BrowserRouter>
 	);
 }
+
+const Bla = () => {
+	return null;
+};
 
 export default App;

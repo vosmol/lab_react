@@ -28,7 +28,7 @@ const UseState = () => {
 
 		updateClock();
 
-		return function () {
+		return () => {
 			clearInterval(clock);
 		};
 	}, []);
