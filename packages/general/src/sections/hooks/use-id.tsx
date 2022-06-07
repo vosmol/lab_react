@@ -3,6 +3,7 @@ import { useRenderTrigger } from './custom';
 
 export const UseID = () => {
 	const { trigger } = useRenderTrigger();
+
 	return (
 		<div>
 			<h4>useId</h4>
