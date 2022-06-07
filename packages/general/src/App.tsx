@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Section_DOM } from './sections/dom';
 import { Section_Hooks } from './sections/hooks';
 import { Section_Other } from './sections/other';
+import { Section_Patterns } from './sections/patterns';
 import { Section_Suspense } from './sections/suspense';
 import { GenerateRouteLinks } from './utils';
 
@@ -9,7 +10,8 @@ const routes = {
 	hooks: 'hooks',
 	suspense: 'suspense',
 	dom: 'dom',
-	other: 'other'
+	other: 'other',
+	patterns: 'patterns'
 };
 
 function handleAll(path: string) {
@@ -32,15 +34,14 @@ function App() {
 						path={handleAll(routes.suspense)}
 						element={<Section_Suspense />}
 					/>
-					<Route path="bla" element={<Bla />} />
+					<Route
+						path={handleAll(routes.patterns)}
+						element={<Section_Patterns />}
+					/>
 				</Routes>
 			</div>
 		</BrowserRouter>
 	);
 }
-
-const Bla = () => {
-	return null;
-};
 
 export default App;

@@ -1,5 +1,25 @@
-export {};
+export const Section_Patterns = () => {
+	return (
+		<div>
+			<h4>Patterns</h4>
+			<HOC />
+			<RENDER />
+		</div>
+	);
+};
 
-// HOC
+const HOC = () => {
+	return (
+		<div>
+			<h4>HOC</h4>
+		</div>
+	);
+};
 
-// Render props
+const RENDER = () => {
+	return (
+		<div>
+			<h4>Render prop</h4>
+		</div>
+	);
+};
