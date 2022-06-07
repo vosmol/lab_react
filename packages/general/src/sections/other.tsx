@@ -39,7 +39,7 @@ export const Section_Other = () => {
 				<Button ref={ref} />
 				<Wrapper headComponent={<>h</>}>
 					<div>A</div>
-					<div>B</div>
+					<div id="B">B</div>
 					{[
 						<div key="c">C</div>,
 						[<div key="d">D</div>, <div key="e">E</div>, <div key="f">F</div>],
