@@ -6,7 +6,6 @@ import {
 	useCallback,
 	useEffect,
 	useMemo,
-	useRef,
 	useState
 } from 'react';
 import { useRenderTrigger } from './hooks/custom';
@@ -161,8 +160,6 @@ const Fetch: FC<{
 
 Fetch.displayName = 'Fetch';
 
-// =========
-
 const HigherOrderComponent = () => {
 	return (
 		<div>
@@ -172,36 +169,66 @@ const HigherOrderComponent = () => {
 	);
 };
 
-const RegularComponent: FC<{ msg: string }> = ({ msg }) => {
-	return <div>{msg}</div>;
+type t_time = { h: number; m: number; s: number; full: string };
+
+type t_regularCompProps = i_mouseProps & { msg: string };
+
+const RegularComponent: FC<t_regularCompProps> = ({
+	msg,
+	updateTime,
+	time
+}) => {
+	useEffect(() => {
+		updateTime();
+		const timer = setInterval(updateTime, 1000);
+		return () => clearInterval(timer);
+	}, [updateTime]);
+
+	return (
+		<div>
+			<p>{msg}</p>
+			<p>Current time - {time.full}</p>
+		</div>
+	);
 };
 
-const WrappedComponent = withMousePostion(RegularComponent);
+const WrappedComponent = withTime(RegularComponent);
 
-type t_injectedProps = { getPostion: () => { x: number; y: number } };
+interface i_mouseProps {
+	getTime: () => t_time;
+	updateTime: () => void;
+	time: t_time;
+}
 
-// https://medium.com/@jrwebdev/react-higher-order-component-patterns-in-typescript-42278f7590fb
+function withTime<T extends i_mouseProps>(Component: ComponentType<T>) {
+	return (hocProps: Omit<T, keyof i_mouseProps>) => {
+		const getTime: () => t_time = useCallback(() => {
+			const now = new Date();
+			const h = now.getHours();
+			const m = now.getMinutes();
+			const s = now.getSeconds();
 
-function withMousePostion<T>(Component: ComponentType<T>): ComponentType<T> {
-	return (hocProps: T) => {
-		const position = useRef({ x: 0, y: 0 });
-
-		const getPosition = useCallback(() => {
-			return position.current;
+			return {
+				h,
+				m,
+				s,
+				full: `${('00' + h).slice(-2)}:${('00' + m).slice(-2)}:${(
+					'00' + s
+				).slice(-2)}`
+			};
 		}, []);
 
-		useEffect(() => {
-			function handleMouse(e: MouseEvent) {
-				const { clientX, clientY } = e;
-				position.current = { x: clientX, y: clientY };
-			}
+		const [time, setTime] = useState(() => getTime());
 
-			window.addEventListener('mousemove', handleMouse);
-			return () => window.removeEventListener('mousemove', handleMouse);
+		const updateTime = useCallback(() => {
+			setTime(getTime());
 		}, []);
 
-		const props = useMemo(() => ({ getPosition }), []);
+		const props = useMemo(
+			() => ({ getTime, updateTime, time, ...hocProps }),
+			[getTime, updateTime, time, hocProps]
+		);
 
-		return <Component {...hocProps} {...props} />;
+		return <Component {...(props as T)} />;
 	};
 }
