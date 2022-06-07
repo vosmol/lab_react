@@ -164,7 +164,7 @@ const HigherOrderComponent = () => {
 	return (
 		<div>
 			<h4>HOC</h4>
-			<WrappedComponent msg="I am wrapped" />
+			<Clock msg="Customer 142" />
 		</div>
 	);
 };
@@ -173,11 +173,7 @@ type t_time = { h: number; m: number; s: number; full: string };
 
 type t_regularCompProps = i_mouseProps & { msg: string };
 
-const RegularComponent: FC<t_regularCompProps> = ({
-	msg,
-	updateTime,
-	time
-}) => {
+const TimeWithMsg: FC<t_regularCompProps> = ({ msg, updateTime, time }) => {
 	useEffect(() => {
 		updateTime();
 		const timer = setInterval(updateTime, 1000);
@@ -186,13 +182,15 @@ const RegularComponent: FC<t_regularCompProps> = ({
 
 	return (
 		<div>
+			<p>
+				<b>{time.full}</b>
+			</p>
 			<p>{msg}</p>
-			<p>Current time - {time.full}</p>
 		</div>
 	);
 };
 
-const WrappedComponent = withTime(RegularComponent);
+const Clock = withTime(TimeWithMsg);
 
 interface i_mouseProps {
 	getTime: () => t_time;
