@@ -1,20 +1,22 @@
-import { FC, memo, ReactNode, useCallback, useMemo, useState } from 'react';
+import {
+	ComponentType,
+	FC,
+	memo,
+	ReactNode,
+	useCallback,
+	useEffect,
+	useMemo,
+	useRef,
+	useState
+} from 'react';
 import { useRenderTrigger } from './hooks/custom';
 
 export const Section_Patterns = () => {
 	return (
 		<div>
 			<h4>Patterns</h4>
-			<HigherOrderComponent />
 			<RenderProp />
-		</div>
-	);
-};
-
-const HigherOrderComponent = () => {
-	return (
-		<div>
-			<h4>HOC</h4>
+			<HigherOrderComponent />
 		</div>
 	);
 };
@@ -26,8 +28,10 @@ type t_pokemon = {
 };
 
 type t_species = {
-	name: string;
-	base_happiness: number;
+	count: number;
+	results: Array<{
+		name: string;
+	}>;
 };
 
 const RenderProp = () => {
@@ -63,7 +67,7 @@ const RenderProp = () => {
 					);
 				}}
 			</Fetch>
-			<Fetch url="https://pokeapi.co/api/v2/pokemon-species/aegislash">
+			<Fetch url="https://pokeapi.co/api/v2/pokemon-species/?limit=10">
 				{({
 					fetch,
 					isSuccess,
@@ -76,8 +80,13 @@ const RenderProp = () => {
 					if (isSuccess) {
 						return (
 							<div>
-								<h5>{data.name}</h5>
-								<p>base happiness: {data.base_happiness}</p>
+								<h5>Species</h5>
+								<p>
+									<b>Total: {data.count}</b>
+								</p>
+								{data.results.map(({ name }) => (
+									<p key={name}>{name}</p>
+								))}
 							</div>
 						);
 					}
@@ -149,3 +158,50 @@ const Fetch: FC<{
 
 	return <div>{children(props)}</div>;
 });
+
+Fetch.displayName = 'Fetch';
+
+// =========
+
+const HigherOrderComponent = () => {
+	return (
+		<div>
+			<h4>HOC</h4>
+			<WrappedComponent msg="I am wrapped" />
+		</div>
+	);
+};
+
+const RegularComponent: FC<{ msg: string }> = ({ msg }) => {
+	return <div>{msg}</div>;
+};
+
+const WrappedComponent = withMousePostion(RegularComponent);
+
+type t_injectedProps = { getPostion: () => { x: number; y: number } };
+
+// https://medium.com/@jrwebdev/react-higher-order-component-patterns-in-typescript-42278f7590fb
+
+function withMousePostion<T>(Component: ComponentType<T>): ComponentType<T> {
+	return (hocProps: T) => {
+		const position = useRef({ x: 0, y: 0 });
+
+		const getPosition = useCallback(() => {
+			return position.current;
+		}, []);
+
+		useEffect(() => {
+			function handleMouse(e: MouseEvent) {
+				const { clientX, clientY } = e;
+				position.current = { x: clientX, y: clientY };
+			}
+
+			window.addEventListener('mousemove', handleMouse);
+			return () => window.removeEventListener('mousemove', handleMouse);
+		}, []);
+
+		const props = useMemo(() => ({ getPosition }), []);
+
+		return <Component {...hocProps} {...props} />;
+	};
+}
