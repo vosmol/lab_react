@@ -7,41 +7,41 @@ import { Section_Suspense } from './sections/suspense';
 import { GenerateRouteLinks } from './utils';
 
 const routes = {
-	hooks: 'hooks',
-	suspense: 'suspense',
-	dom: 'dom',
-	other: 'other',
-	patterns: 'patterns'
+  hooks: 'hooks',
+  suspense: 'suspense',
+  dom: 'dom',
+  other: 'other',
+  patterns: 'patterns'
 };
 
 function handleAll(path: string) {
-	return path + '/*';
+  return path + '/*';
 }
 
 function App() {
-	return (
-		<BrowserRouter>
-			<div className="App" style={{ padding: '2rem' }}>
-				<div style={{ display: 'flex', flexWrap: 'wrap' }}>
-					<GenerateRouteLinks routes={routes} />
-				</div>
-				<Routes>
-					<Route path="/" element={<Navigate to={routes.hooks} />} />
-					<Route path={handleAll(routes.dom)} element={<Section_DOM />} />
-					<Route path={handleAll(routes.hooks)} element={<Section_Hooks />} />
-					<Route path={handleAll(routes.other)} element={<Section_Other />} />
-					<Route
-						path={handleAll(routes.suspense)}
-						element={<Section_Suspense />}
-					/>
-					<Route
-						path={handleAll(routes.patterns)}
-						element={<Section_Patterns />}
-					/>
-				</Routes>
-			</div>
-		</BrowserRouter>
-	);
+  return (
+    <BrowserRouter>
+      <div className="App" style={{ padding: '2rem' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+          <GenerateRouteLinks routes={routes} />
+        </div>
+        <Routes>
+          <Route path="/" element={<Navigate to={routes.hooks} />} />
+          <Route path={handleAll(routes.dom)} element={<Section_DOM />} />
+          <Route path={handleAll(routes.hooks)} element={<Section_Hooks />} />
+          <Route path={handleAll(routes.other)} element={<Section_Other />} />
+          <Route
+            path={handleAll(routes.suspense)}
+            element={<Section_Suspense />}
+          />
+          <Route
+            path={handleAll(routes.patterns)}
+            element={<Section_Patterns />}
+          />
+        </Routes>
+      </div>
+    </BrowserRouter>
+  );
 }
 
 export default App;
