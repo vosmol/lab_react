@@ -171,7 +171,7 @@ const HigherOrderComponent = () => {
 
 type t_time = { h: number; m: number; s: number; full: string };
 
-type t_regularCompProps = i_mouseProps & { msg: string };
+type t_regularCompProps = i_timeProps & { msg: string };
 
 const TimeWithMsg: FC<t_regularCompProps> = ({ msg, updateTime, time }) => {
   useEffect(() => {
@@ -192,14 +192,14 @@ const TimeWithMsg: FC<t_regularCompProps> = ({ msg, updateTime, time }) => {
 
 const Clock = withTime(TimeWithMsg);
 
-interface i_mouseProps {
+interface i_timeProps {
   getTime: () => t_time;
   updateTime: () => void;
   time: t_time;
 }
 
-function withTime<T extends i_mouseProps>(Component: ComponentType<T>) {
-  return (hocProps: Omit<T, keyof i_mouseProps>) => {
+function withTime<T extends i_timeProps>(Component: ComponentType<T>) {
+  return (hocProps: Omit<T, keyof i_timeProps>) => {
     const getTime: () => t_time = useCallback(() => {
       const now = new Date();
       const h = now.getHours();

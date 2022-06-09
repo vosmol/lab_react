@@ -1,4 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { Section_Classes } from './sections/classes';
 import { Section_DOM } from './sections/dom';
 import { Section_Hooks } from './sections/hooks';
 import { Section_Other } from './sections/other';
@@ -11,7 +12,8 @@ const routes = {
   suspense: 'suspense',
   dom: 'dom',
   other: 'other',
-  patterns: 'patterns'
+  patterns: 'patterns',
+  classes: 'classes'
 };
 
 function handleAll(path: string) {
@@ -30,6 +32,10 @@ function App() {
           <Route path={handleAll(routes.dom)} element={<Section_DOM />} />
           <Route path={handleAll(routes.hooks)} element={<Section_Hooks />} />
           <Route path={handleAll(routes.other)} element={<Section_Other />} />
+          <Route
+            path={handleAll(routes.classes)}
+            element={<Section_Classes />}
+          />
           <Route
             path={handleAll(routes.suspense)}
             element={<Section_Suspense />}
