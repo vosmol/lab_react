@@ -32,6 +32,8 @@ type t_props = {
 /*
 	https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/
 	---
+	! No side effects during render phase - only after render() call
+	---
 	## Mount ##
 	constructor
 	getDerivedStateFromProps
@@ -94,7 +96,6 @@ class MyClassComponent extends Component<t_props, i_state> {
   // static getDerivedStateFromProps() {}
 
   /* static getDerivedStateFromError(error) {
-	! No side effects here (called during render)
 	return (VALUE_TO_UPDATE_STATE) like {hasError:true}
   }*/
 
