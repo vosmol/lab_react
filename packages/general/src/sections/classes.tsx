@@ -1,9 +1,8 @@
-import React, {
-  Component,
-  CSSProperties,
-  ErrorInfo,
-  PureComponent
-} from 'react';
+import { Component, CSSProperties, ErrorInfo, PureComponent } from 'react';
+
+// TODO: Add working with refs (element, forward) experiment
+// TODO: Add working with context experiment
+// TODO: Add pass component as prop experiment
 
 export class Section_Classes extends Component<never, { color: string }> {
   state = {
