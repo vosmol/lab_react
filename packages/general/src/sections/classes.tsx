@@ -19,6 +19,7 @@ export class Section_Classes extends Component<never, { color: string }> {
     return (
       <>
         <button onClick={this.handle}>Rerender</button>
+        <MyPureComponent />
         <MyClassComponent msg="Hello" />
       </>
     );
@@ -119,7 +120,8 @@ class ModernComponent extends Component<t_modernProps, t_moderState> {
 
 class MyPureComponent extends PureComponent {
   render() {
-    return <div></div>;
+    console.log('pure render');
+    return <div style={{ marginTop: '2rem', marginBottom: '2rem' }}>Pure</div>;
   }
 }
 
