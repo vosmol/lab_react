@@ -5,12 +5,11 @@ import {
   CSSProperties,
   ErrorInfo,
   forwardRef,
+  PropsWithChildren,
   PureComponent,
   RefObject,
   useContext
 } from 'react';
-
-// TODO: Add pass component as prop experiment
 
 export class Section_Classes extends Component<never, { color: string }> {
   state = {
@@ -29,6 +28,9 @@ export class Section_Classes extends Component<never, { color: string }> {
         <button onClick={this.handle}>Rerender</button>
         <MyPureComponent />
         <ContextComponent />
+        <ComponentWrapper>
+          <p>something</p>
+        </ComponentWrapper>
         <MyClassComponent msg="Hello" />
       </>
     );
@@ -259,6 +261,28 @@ class FaultyComponent extends PureComponent {
   render() {
     throw new Error();
     return null;
+  }
+}
+
+// ======================================================================
+// ======================================================================
+
+class ComponentWrapper extends Component<PropsWithChildren<{}>> {
+  render() {
+    const { children } = this.props;
+
+    return (
+      <div
+        style={{
+          border: '1px solid red',
+          display: 'flex',
+          padding: '0.5rem',
+          width: 'max-content'
+        }}
+      >
+        {children}
+      </div>
+    );
   }
 }
 
