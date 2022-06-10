@@ -1,6 +1,13 @@
-import { Component, CSSProperties, ErrorInfo, PureComponent } from 'react';
+import {
+  Component,
+  createRef,
+  CSSProperties,
+  ErrorInfo,
+  forwardRef,
+  PureComponent,
+  RefObject
+} from 'react';
 
-// TODO: Add working with refs (element, forward) experiment
 // TODO: Add working with context experiment
 // TODO: Add pass component as prop experiment
 
@@ -9,10 +16,11 @@ export class Section_Classes extends Component<never, { color: string }> {
     color: 'green'
   };
 
-  handle = () =>
+  handle = () => {
     this.setState((state) => ({
       color: state.color === 'green' ? 'red' : 'green'
     }));
+  };
 
   render() {
     return (
@@ -49,6 +57,17 @@ class ModernComponent extends Component<t_modernProps, t_moderState> {
     data: undefined
   };
 
+  wrapperRef: RefObject<HTMLDivElement>;
+  compRef: RefObject<ReferencedComponent>;
+  forwardedRef: RefObject<HTMLDivElement>;
+
+  constructor(props: t_modernProps) {
+    super(props);
+    this.wrapperRef = createRef();
+    this.compRef = createRef();
+    this.forwardedRef = createRef();
+  }
+
   timer: number | undefined;
 
   componentDidMount() {
@@ -68,6 +87,9 @@ class ModernComponent extends Component<t_modernProps, t_moderState> {
     prevState: t_moderState,
     snapshot: t_snaphshot
   ) {
+    console.log('wrapper element', this.wrapperRef.current);
+    console.log('component reference', this.compRef.current);
+    console.log('forwarded ref to element', this.forwardedRef.current);
     console.log(prevProps.id, this.props.id);
     if (prevProps.id !== this.props.id) this.fetchData();
     console.log(snapshot);
@@ -80,8 +102,10 @@ class ModernComponent extends Component<t_modernProps, t_moderState> {
   render() {
     const $ = this.state;
     return (
-      <div>
+      <div ref={this.wrapperRef}>
         <p>Modern</p>
+        <ReferencedComponent ref={this.compRef} />
+        <ForwardedRefComponent ref={this.forwardedRef} msg="wroom" />
         {$.data ? (
           <div>
             <span>
@@ -116,6 +140,33 @@ class ModernComponent extends Component<t_modernProps, t_moderState> {
     } catch (e) {}
   }
 }
+
+class ReferencedComponent extends PureComponent {
+  render() {
+    return <div>ref</div>;
+  }
+}
+
+type t_fwdProps = {
+  msg: string;
+};
+
+const ForwardedRefComponent = forwardRef<HTMLDivElement, t_fwdProps>(
+  (props, ref) => {
+    class Component extends PureComponent<t_fwdProps> {
+      constructor() {
+        super(props);
+      }
+
+      render() {
+        const { msg } = this.props;
+        return <div ref={ref}>Forward {msg}</div>;
+      }
+    }
+
+    return <Component {...props} />;
+  }
+);
 
 class MyPureComponent extends PureComponent {
   render() {
