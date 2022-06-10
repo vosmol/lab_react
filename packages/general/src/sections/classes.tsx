@@ -1,4 +1,9 @@
-import React, { Component, CSSProperties, PureComponent } from 'react';
+import React, {
+  Component,
+  CSSProperties,
+  ErrorInfo,
+  PureComponent
+} from 'react';
 
 export class Section_Classes extends Component<never, { color: string }> {
   state = {
@@ -20,9 +25,176 @@ export class Section_Classes extends Component<never, { color: string }> {
   }
 }
 
+type t_modernProps = {
+  id: string;
+};
+
+interface i_data {
+  name: string;
+  icon: string;
+}
+
+type t_moderState = {
+  height: number;
+  data: undefined | i_data;
+};
+
+type t_snaphshot = {
+  takeIntoAccountThisValue: number;
+};
+
+class ModernComponent extends Component<t_modernProps, t_moderState> {
+  state: t_moderState = {
+    height: 0,
+    data: undefined
+  };
+
+  timer: number | undefined;
+
+  componentDidMount() {
+    this.fetchData();
+    this.timer = setInterval(this.tick, 1000);
+  }
+
+  getSnapshotBeforeUpdate() {
+    const measured = window.scrollY;
+    return {
+      takeIntoAccountThisValue: measured
+    };
+  }
+
+  componentDidUpdate(
+    prevProps: t_modernProps,
+    prevState: t_moderState,
+    snapshot: t_snaphshot
+  ) {
+    console.log(prevProps.id, this.props.id);
+    if (prevProps.id !== this.props.id) this.fetchData();
+    console.log(snapshot);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+
+  render() {
+    const $ = this.state;
+    return (
+      <div>
+        <p>Modern</p>
+        {$.data ? (
+          <div>
+            <span>
+              {$.data.name} {$.data.icon}
+            </span>
+          </div>
+        ) : (
+          <p>Loading ...</p>
+        )}
+      </div>
+    );
+  }
+
+  // ==================
+  // Methods
+  // ==================
+
+  tick() {
+    console.log('tick');
+  }
+
+  async fetchData() {
+    try {
+      const data = await new Promise<i_data>((res) =>
+        setTimeout(
+          () => res({ name: `Jane ${this.props.id}`, icon: '🏄‍♀️' }),
+          1000
+        )
+      );
+
+      this.setState({ data });
+    } catch (e) {}
+  }
+}
+
+class MyPureComponent extends PureComponent {
+  render() {
+    return <div></div>;
+  }
+}
+
+type t_errBoundaryProps = {};
+
+type t_errBoundaryState = {
+  hasError: boolean;
+  renderFaulty: boolean;
+};
+
+const defaultState: t_errBoundaryState = {
+  hasError: false,
+  renderFaulty: false
+};
+
+const logService = {
+  logError: (err: Error, info: ErrorInfo, ...other: any[]) => {}
+};
+
+class ErrorBoundary extends Component<t_errBoundaryProps, t_errBoundaryState> {
+  state = defaultState;
+
+  static getDerivedStateFromError(): Partial<t_errBoundaryState> {
+    return {
+      hasError: true
+    };
+  }
+
+  componentDidCatch(err: Error, info: ErrorInfo) {
+    logService.logError(err, info, this.state, this.props);
+    console.warn('error occured');
+  }
+
+  triggerError = () => {
+    this.setState({
+      renderFaulty: true
+    });
+  };
+
+  recoverError = () => {
+    this.setState({
+      ...defaultState
+    });
+  };
+
+  render() {
+    const t = this;
+    const $ = this.state;
+
+    if ($.hasError)
+      return (
+        <div>
+          <p>Arrrgh! Something went wrong.</p>
+          <button onClick={t.recoverError}>Retry</button>
+        </div>
+      );
+
+    return (
+      <>
+        <button onClick={t.triggerError}>Trigger error</button>
+        {$.renderFaulty ? <FaultyComponent /> : null}
+      </>
+    );
+  }
+}
+
+class FaultyComponent extends PureComponent {
+  render() {
+    throw new Error();
+    return null;
+  }
+}
+
 interface i_state {
   count: number;
-  hasError: boolean;
 }
 
 type t_props = {
@@ -32,7 +204,7 @@ type t_props = {
 /*
 	https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/
 	---
-	! No side effects during render phase - only after render() call
+	! No side effects before render() call
 	---
 	## Mount ##
 	constructor
@@ -64,11 +236,12 @@ class MyClassComponent extends Component<t_props, i_state> {
   constructor(props: t_props) {
     super(props);
 
+    // ! use constructor only for initializing local state and...
     this.state = {
-      count: 0,
-      hasError: false
+      count: 0
     };
 
+    // ! ...and binding of event handler methods
     this.updateCount3 = this.updateCount3.bind(this);
   }
 
@@ -99,11 +272,11 @@ class MyClassComponent extends Component<t_props, i_state> {
 	return (VALUE_TO_UPDATE_STATE) like {hasError:true}
   }*/
 
-  getSnapshotBeforeUpdate() {
-    // Simillar use case to useLayoutEffect - read DOM and return value used by componentDidUpdate()
-    // ! Do it here because there can be delay between snapshot() and didUpdate()
+  /* getSnapshotBeforeUpdate() {
+    Simillar use case to useLayoutEffect - read DOM and return value used by componentDidUpdate()
+    ! Do it here because there can be delay between snapshot() and didUpdate()
     return null;
-  }
+  }*/
 
   componentDidCatch(error: Error, info: any) {
     console.log('did catch');
@@ -158,47 +331,47 @@ class MyClassComponent extends Component<t_props, i_state> {
   };
 
   render() {
-    const T = this;
-    const P = T.props;
-    const $ = T.state;
+    const { msg } = this.props;
+    const t = this;
+    const $ = this.state;
 
     console.log('render');
 
-    if ($.hasError) return <p>D'oh! Something went wrong.</p>;
-
     return (
-      <div>
-        <p>{P.msg}</p>
-        <button onClick={T.updateCount1} style={this.btnStyle}>
-          Count {$.count}
-        </button>
-        <button onClick={() => T.updateCount2()} style={this.btnStyle}>
-          Count {$.count}
-        </button>
-        <button onClick={T.updateCount2.bind(this)} style={this.btnStyle}>
-          Count {$.count}
-        </button>
-        <button onClick={T.updateCount3} style={this.btnStyle}>
-          Count {$.count}
-        </button>
-        <button
-          onClick={() => {
-            // ! Wont trigger shouldComponentUpdate
-            T.forceUpdate();
-          }}
-        >
-          Force update
-        </button>
-      </div>
+      <>
+        <div>
+          <p>{msg}</p>
+          <button onClick={t.updateCount1} style={t.btnStyle}>
+            Count {$.count}
+          </button>
+          <button onClick={() => t.updateCount2()} style={t.btnStyle}>
+            Count {$.count}
+          </button>
+          <button onClick={t.updateCount2.bind(t)} style={t.btnStyle}>
+            Count {$.count}
+          </button>
+          <button onClick={t.updateCount3} style={t.btnStyle}>
+            Count {$.count}
+          </button>
+          <button
+            onClick={() => {
+              // ! Wont trigger shouldComponentUpdate
+              t.forceUpdate();
+            }}
+          >
+            Force update
+          </button>
+        </div>
+        <div style={{ marginTop: '2rem' }}>
+          <ErrorBoundary />
+        </div>
+        <div style={{ marginTop: '2rem' }}>
+          <ModernComponent id={String($.count)} />
+        </div>
+      </>
     );
   }
 }
 
 // ClassComponent.defaultProps;
 // ClassComponent.displayName
-
-class MyPureComponent extends PureComponent {
-  render() {
-    return <div></div>;
-  }
-}
