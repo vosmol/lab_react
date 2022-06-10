@@ -1,14 +1,15 @@
 import {
   Component,
+  createContext,
   createRef,
   CSSProperties,
   ErrorInfo,
   forwardRef,
   PureComponent,
-  RefObject
+  RefObject,
+  useContext
 } from 'react';
 
-// TODO: Add working with context experiment
 // TODO: Add pass component as prop experiment
 
 export class Section_Classes extends Component<never, { color: string }> {
@@ -27,11 +28,15 @@ export class Section_Classes extends Component<never, { color: string }> {
       <>
         <button onClick={this.handle}>Rerender</button>
         <MyPureComponent />
+        <ContextComponent />
         <MyClassComponent msg="Hello" />
       </>
     );
   }
 }
+
+// ======================================================================
+// ======================================================================
 
 type t_modernProps = {
   id: string;
@@ -161,7 +166,9 @@ type t_fwdProps = {
 const ForwardedRefComponent = forwardRef<HTMLDivElement, t_fwdProps>(
   (props, ref) => {
     class Component extends PureComponent<t_fwdProps> {
-      constructor() {
+      static displayName = 'EpicComponent';
+
+      constructor(props: t_fwdProps) {
         super(props);
       }
 
@@ -181,6 +188,9 @@ class MyPureComponent extends PureComponent {
     return <div style={{ marginTop: '2rem', marginBottom: '2rem' }}>Pure</div>;
   }
 }
+
+// ======================================================================
+// ======================================================================
 
 type t_errBoundaryProps = {};
 
@@ -251,6 +261,81 @@ class FaultyComponent extends PureComponent {
     return null;
   }
 }
+
+// ======================================================================
+// ======================================================================
+
+type t_themeName = 'light' | 'dark';
+
+interface i_context {
+  name: t_themeName;
+}
+
+const Contex_Theme = createContext<i_context>({ name: 'light' });
+
+type t_contextProps = {};
+
+type t_contextState = {
+  themeName: t_themeName;
+};
+
+class ContextComponent extends Component<t_contextProps, t_contextState> {
+  constructor(props: t_contextProps) {
+    super(props);
+
+    this.state = {
+      themeName: 'dark'
+    };
+  }
+
+  componentDidMount() {
+    this.setState({ themeName: 'light' });
+  }
+
+  render() {
+    return (
+      <Contex_Theme.Provider value={{ name: this.state.themeName }}>
+        <div style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
+          <button style={{ display: 'block' }} onClick={this.toggleTheme}>
+            Toggle theme
+          </button>
+          <FuctionalThemeDisplay />
+          <Contex_Theme.Consumer>
+            {({ name }) => (
+              <p
+                style={{
+                  color: name === 'dark' ? 'white' : 'black',
+                  backgroundColor: name === 'dark' ? 'black' : '#dadada',
+                  padding: '0.5rem',
+                  display: 'inline-block'
+                }}
+              >
+                Some sample text
+              </p>
+            )}
+          </Contex_Theme.Consumer>
+        </div>
+      </Contex_Theme.Provider>
+    );
+  }
+
+  // Methods
+
+  toggleTheme = () => {
+    this.setState((state) => ({
+      themeName: state.themeName === 'dark' ? 'light' : 'dark'
+    }));
+  };
+}
+
+const FuctionalThemeDisplay = () => {
+  const { name } = useContext(Contex_Theme);
+
+  return <b style={{ marginRight: '1rem' }}>{name}</b>;
+};
+
+// ======================================================================
+// ======================================================================
 
 interface i_state {
   count: number;
@@ -431,6 +516,3 @@ class MyClassComponent extends Component<t_props, i_state> {
     );
   }
 }
-
-// ClassComponent.defaultProps;
-// ClassComponent.displayName
