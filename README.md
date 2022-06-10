@@ -9,7 +9,7 @@ Project uses `pnpm` as the package manager.
 1. Install dependencies `pnpm i`
 2. Run one of the scripst listed in [Repo structure](#repo-structure)
 
-# Repo structure
+# Repo structure (Monorepo)
 
 ```
 ✅ = Done | 🟦 = Inprogress | ⬜ = Todo | ⬛ = As is
