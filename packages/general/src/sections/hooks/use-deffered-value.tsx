@@ -22,8 +22,8 @@ const List = ({ search }: { search: string }) => {
 
   const items = useMemo(() => {
     if (search.length < 1) return;
-    return [...Array(10000).keys()].map((key) => (
-      <p>
+    return [...Array(10000).keys()].map((key, i) => (
+      <p key={i}>
         {search} {key}
       </p>
     ));
