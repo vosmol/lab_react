@@ -60,13 +60,19 @@ class ModernComponent extends Component<t_modernProps, t_moderState> {
   wrapperRef: RefObject<HTMLDivElement>;
   compRef: RefObject<ReferencedComponent>;
   forwardedRef: RefObject<HTMLDivElement>;
+  callbackRef: HTMLParagraphElement | null;
 
   constructor(props: t_modernProps) {
     super(props);
     this.wrapperRef = createRef();
     this.compRef = createRef();
     this.forwardedRef = createRef();
+    this.callbackRef = null;
   }
+
+  setCallbackRef = (element: HTMLParagraphElement) => {
+    this.callbackRef = element;
+  };
 
   timer: number | undefined;
 
@@ -87,6 +93,7 @@ class ModernComponent extends Component<t_modernProps, t_moderState> {
     prevState: t_moderState,
     snapshot: t_snaphshot
   ) {
+    console.log('callback ref element', this.callbackRef);
     console.log('wrapper element', this.wrapperRef.current);
     console.log('component reference', this.compRef.current);
     console.log('forwarded ref to element', this.forwardedRef.current);
@@ -103,7 +110,7 @@ class ModernComponent extends Component<t_modernProps, t_moderState> {
     const $ = this.state;
     return (
       <div ref={this.wrapperRef}>
-        <p>Modern</p>
+        <p ref={this.setCallbackRef}>Modern</p>
         <ReferencedComponent ref={this.compRef} />
         <ForwardedRefComponent ref={this.forwardedRef} msg="wroom" />
         {$.data ? (
