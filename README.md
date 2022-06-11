@@ -24,5 +24,6 @@ Project uses `pnpm` as the package manager.
     - ✅ Patterns (render prop, HOC)
     - ✅ Classes
   - 🟦 /renderer - custom React renderer (Vite.js app) `pnpm dev:renderer`
+    - 🟦 React@17
+    - ⬜ React@18
   - ⬜ /ssr - server specific code to render react in node.js - `pnpm dev:ssr`
-  - ⬛ /react-17 - Test package with react@17 for comparison (Vite.js app)
