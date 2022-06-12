@@ -10,7 +10,8 @@ const reconciler = ReactReconciler({
   isPrimaryRenderer: true,
   supportsPersistence: false,
   supportsHydration: false,
-  createInstance: (type: string) => {
+  createInstance: (type: string, ...rest) => {
+    console.log(rest);
     const element = document.createElement(type);
     return element;
   },
