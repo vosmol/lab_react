@@ -12,10 +12,11 @@ Project uses `pnpm` as the package manager.
 # Repo structure (Monorepo)
 
 ```
-✅ = Done | 🟦 = Inprogress | ⬜ = Todo | ⬛ = As is
+✅ = Done | 🟦 = Inprogress | ⬜ = Todo
 ```
 
 - /packages - source code
+
   - /general/sections - general React features (Vite.js app) `pnpm dev:general`
     - ✅ Hooks (state, callback, defferedValue, effect, id, imperativeHandle, reducer, context, ref, memo, synExternalStore, transition)
     - ✅ Suspense (lazy, suspended fetch)
@@ -24,6 +25,4 @@ Project uses `pnpm` as the package manager.
     - ✅ Patterns (render prop, HOC)
     - ✅ Classes
   - 🟦 /renderer - custom React renderer (Vite.js app) `pnpm dev:renderer`
-    - 🟦 React@17
-    - ⬜ React@18
   - ⬜ /ssr - server specific code to render react in node.js - `pnpm dev:ssr`
