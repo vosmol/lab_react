@@ -1,6 +1,10 @@
 import { ReactNode } from 'react';
 import ReactReconciler from 'react-reconciler';
 
+// !! =================================================
+// !! IN EARLY DEVELOPMENT STAGE - API HIGHLY UNSTABLE
+// !! =================================================
+
 const reconciler = ReactReconciler({
   supportsMutation: true,
   isPrimaryRenderer: true,
